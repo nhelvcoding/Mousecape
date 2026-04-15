@@ -1,0 +1,32 @@
+name: Build Tahoe
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: macos-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Build App
+      run: |
+        xcodebuild -project Mousecape.xcodeproj -scheme Mousecape -configuration Release
+        
+    - name: Prepare Artifact
+      run: |
+        mkdir -p artifact
+        cp -R build/Release/Mousecape.app artifact/Tahoe.app
+
+    - name: Upload App
+      uses: actions/upload-artifact@v4
+      with:
+        name: Tahoe-App
+        path: artifact/Tahoe.app
