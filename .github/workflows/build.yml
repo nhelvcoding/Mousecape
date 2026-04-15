@@ -17,6 +17,7 @@ jobs:
 
     - name: Build App
       run: |
+        sed -i '' '/Sparkle\.framework/d' Mousecape/Mousecape.xcodeproj/project.pbxproj
         xcodebuild -project Mousecape/Mousecape.xcodeproj -scheme Mousecape -configuration Release CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO
 
 
