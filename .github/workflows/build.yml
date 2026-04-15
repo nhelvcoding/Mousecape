@@ -2,10 +2,9 @@ name: Build Tahoe
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "master" ]
   pull_request:
-    branches: [ "main" ]
-  # Allows you to run this workflow manually from the Actions tab
+    branches: [ "master" ]
   workflow_dispatch:
 
 jobs:
@@ -16,15 +15,13 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
 
-  - name: Build App
+    - name: Build App
       run: |
-        # We have to tell it to look inside the Mousecape folder
         xcodebuild -project Mousecape/Mousecape.xcodeproj -scheme Mousecape -configuration Release
-        
+
     - name: Prepare Artifact
       run: |
         mkdir -p artifact
-        # The app gets built inside the Mousecape folder, so we copy it from there
         cp -R Mousecape/build/Release/Mousecape.app artifact/Tahoe.app
 
     - name: Upload App
