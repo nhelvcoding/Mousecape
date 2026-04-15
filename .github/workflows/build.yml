@@ -16,14 +16,16 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
 
-    - name: Build App
+  - name: Build App
       run: |
-        xcodebuild -project Mousecape.xcodeproj -scheme Mousecape -configuration Release
+        # We have to tell it to look inside the Mousecape folder
+        xcodebuild -project Mousecape/Mousecape.xcodeproj -scheme Mousecape -configuration Release
         
     - name: Prepare Artifact
       run: |
         mkdir -p artifact
-        cp -R build/Release/Mousecape.app artifact/Tahoe.app
+        # The app gets built inside the Mousecape folder, so we copy it from there
+        cp -R Mousecape/build/Release/Mousecape.app artifact/Tahoe.app
 
     - name: Upload App
       uses: actions/upload-artifact@v4
